@@ -1,0 +1,7 @@
+pod "BCDataStream", :path => "../BCDataStream.podspec"
+
+target "Demo" do
+end
+
+target "DemoTests" do
+end
