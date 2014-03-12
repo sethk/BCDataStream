@@ -1,37 +1,22 @@
-#
-# Be sure to run `pod spec lint NAME.podspec' to ensure this is a
-# valid spec and remove all comments before submitting the spec.
-#
-# To learn more about the attributes see http://guides.cocoapods.org/syntax/podspec.html
-#
 Pod::Spec.new do |s|
-  s.name             = "BCDataStream"
-  s.version          = "0.1.0"
-  s.summary          = "A short description of BCDataStream."
-  s.description      = <<-DESC
-                       An optional longer description of BCDataStream
+	s.name             = "BCDataStream"
+	s.version          = "0.1.0"
+	s.summary          = "A pair of utility classes for decoding and encoding binary data streams."
+	s.homepage         = "http://EXAMPLE/NAME"
+	s.license          = 'BSD'
+	s.author           = { "Seth Kingsley" => "sethk@meowfishies.com" }
+	s.source           = { :git => "http://EXAMPLE/NAME.git", :tag => s.version.to_s }
 
-                       * Markdown format.
-                       * Don't worry about the indent, we strip it!
-                       DESC
-  s.homepage         = "http://EXAMPLE/NAME"
-  s.screenshots      = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
-  s.license          = 'MIT'
-  s.author           = { "Seth Kingsley" => "sethk@meowfishies.com" }
-  s.source           = { :git => "http://EXAMPLE/NAME.git", :tag => s.version.to_s }
-  s.social_media_url = 'https://twitter.com/NAME'
+	s.ios.deployment_target = '5.0'
+	s.osx.deployment_target = '10.6'
+	s.requires_arc = true
+	s.compiler_flags = '-fobjc-arc-exceptions'
 
-  # s.platform     = :ios, '5.0'
-  # s.ios.deployment_target = '5.0'
-  # s.osx.deployment_target = '10.7'
-  s.requires_arc = true
+	s.default_subspec = 'Core'
 
-  s.source_files = 'Classes'
-  s.resources = 'Assets'
-
-  s.ios.exclude_files = 'Classes/osx'
-  s.osx.exclude_files = 'Classes/ios'
-  # s.public_header_files = 'Classes/**/*.h'
-  # s.frameworks = 'SomeFramework', 'AnotherFramework'
-  # s.dependency 'JSONKit', '~> 1.4'
+	s.subspec 'Core' do |ss|
+		ss.source_files = 'Classes'
+		s.public_header_files = 'Classes/BN{Abstract,Input,Output}DataStream.h'
+		s.frameworks = 'Foundation'
+	end
 end

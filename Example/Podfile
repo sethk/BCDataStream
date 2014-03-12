@@ -1,0 +1,5 @@
+platform :osx
+#platform :ios
+
+podspec :path => "../BCDataStream.podspec"
+pod 'BCDataStream', :path => "../BCDataStream.podspec"
