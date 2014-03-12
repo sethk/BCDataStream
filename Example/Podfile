@@ -1,5 +1,8 @@
 platform :osx
-#platform :ios
 
 podspec :path => "../BCDataStream.podspec"
 pod 'BCDataStream', :path => "../BCDataStream.podspec"
+
+target 'BCDataStreamExample Tests' do
+    pod 'BCDataStream/Tests', :path => '../BCDataStream.podspec'
+end

@@ -16,7 +16,13 @@ Pod::Spec.new do |s|
 
 	s.subspec 'Core' do |ss|
 		ss.source_files = 'Classes'
-		s.public_header_files = 'Classes/BN{Abstract,Input,Output}DataStream.h'
-		s.frameworks = 'Foundation'
+		ss.public_header_files = 'Classes/BN{Abstract,Input,Output}DataStream.h'
+		ss.frameworks = 'Foundation'
+	end
+
+	s.subspec 'Tests' do |ss|
+		ss.source_files = 'Tests'
+		ss.frameworks = 'XCTest'
+		ss.dependency 'BCDataStream/Core'
 	end
 end
