@@ -175,11 +175,18 @@
 - (void)_decodeBogusDelimeterOfData:(NSData *)encodedData fromStream:(BNInputDataStream *)readStream
 {
 	NSData *bogusDelimeter;
+	BOOL delimiterInData, dataInDelimiter;
 	do
+	{
 		bogusDelimeter = [self _randomDataWithMaxLength:32];
-	while ([encodedData rangeOfData:bogusDelimeter
-							  options:0
-								range:NSMakeRange(0, [encodedData length])].location != NSNotFound);
+		delimiterInData = ([encodedData rangeOfData:bogusDelimeter
+											options:0
+											  range:NSMakeRange(0, [encodedData length])].location != NSNotFound);
+		dataInDelimiter = ([bogusDelimeter rangeOfData:encodedData
+											   options:0
+												 range:NSMakeRange(0, [bogusDelimeter length])].location != NSNotFound);
+	}
+	while (delimiterInData || dataInDelimiter);
 	NSUInteger remainingLength = [readStream remainingLength];
 	NSData *remainingData;
 	BOOL foundMarker = [readStream decodeUntilMarker:bogusDelimeter intoData:&remainingData description:@"Bogus data"];
