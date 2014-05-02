@@ -119,6 +119,15 @@
 	[self encodeBytes:(const u_int8_t *)&u16 length:sizeof(u16) description:description];
 }
 
+- (void)encodeInt32:(int32_t)s32 description:(NSString *)description
+{
+	if (_endianness == LITTLE_ENDIAN)
+		s32 = OSSwapHostToLittleInt32(s32);
+	else
+		s32 = OSSwapHostToBigInt32(s32);
+	[self encodeBytes:(const u_int8_t *)&s32 length:sizeof(s32) description:description];
+}
+
 - (void)encodeUInt32:(u_int32_t)u32 description:(NSString *)description
 {
 	if (_endianness == LITTLE_ENDIAN)

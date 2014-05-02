@@ -28,37 +28,44 @@
 
 - (NSObject *)_encodeItemToStream:(BNOutputDataStream *)writeStream
 {
-	switch (random() % 6)
+	switch (random() % 7)
 	{
 		case 0:
 		{
 			u_int8_t u8 = (u_int8_t)random();
 			[writeStream encodeUInt8:u8 description:@"Unsigned char"];
-			return [NSNumber numberWithUnsignedChar:u8];
+			return [NSValue valueWithBytes:&u8 objCType:@encode(typeof(u8))];
 		}
 
 		case 1:
 		{
 			u_int16_t u16 = (u_int16_t)random();
 			[writeStream encodeUInt16:u16 description:@"Unsigned short"];
-			return [NSNumber numberWithUnsignedShort:u16];
+			return [NSValue valueWithBytes:&u16 objCType:@encode(typeof(u16))];
 		}
 
 		case 2:
 		{
-			u_int32_t u32 = (u_int32_t)random();
-			[writeStream encodeUInt32:u32 description:@"Unsigned int"];
-			return [NSNumber numberWithUnsignedInt:u32];
+			int32_t s32 = (int32_t)random();
+			[writeStream encodeInt32:s32 description:@"Signed int"];
+			return [NSValue valueWithBytes:&s32 objCType:@encode(typeof(s32))];
 		}
 
 		case 3:
+		{
+			u_int32_t u32 = (u_int32_t)random();
+			[writeStream encodeUInt32:u32 description:@"Unsigned int"];
+			return [NSValue valueWithBytes:&u32 objCType:@encode(typeof(u32))];
+		}
+
+		case 4:
 		{
 			NSData *data = [self _randomDataWithMaxLength:256];
 			[writeStream encodeData:data description:@"Data block"];
 			return data;
 		}
 
-		case 4:
+		case 5:
 		{
 			char cString[64];
 			NSUInteger length = (NSUInteger)random() % sizeof(cString);
@@ -70,7 +77,7 @@
 			return string;
 		}
 
-		case 5:
+		case 6:
 		{
 			NSData *data = [self _randomDataWithMaxLength:128];
 			NSData *delimeter;
@@ -92,23 +99,36 @@
 
 - (BOOL)_decodeItem:(NSObject *)item fromStream:(BNInputDataStream *)readStream partialData:(NSMutableData *)partialData
 {
-	if ([item isKindOfClass:[NSNumber class]])
+	if ([item isKindOfClass:[NSValue class]])
 	{
 		const char *type = [(NSNumber *)item objCType];
-		if (!strcmp(type, @encode(short))) // NSNumber encodes unsigned values in double the space
+		if (!strcmp(type, @encode(u_int8_t))) // NSNumber encodes unsigned values in double the space
 		{
 			u_int8_t u8 = [readStream decodeUInt8WithDescription:@"Unsigned char"];
-			XCTAssertEqual(u8, [(NSNumber *)item unsignedCharValue]);
+			u_int8_t savedU8;
+			[(NSValue *)item getValue:&savedU8];
+			XCTAssertEqual(u8, savedU8);
 		}
-		else if (!strcmp(type, @encode(int)))
+		else if (!strcmp(type, @encode(u_int16_t)))
 		{
 			u_int16_t u16 = [readStream decodeUInt16WithDescription:@"Unsigned short"];
-			XCTAssertEqual(u16, [(NSNumber *)item unsignedShortValue]);
+			u_int16_t savedU16;
+			[(NSValue *)item getValue:&savedU16];
+			XCTAssertEqual(u16, savedU16);
 		}
-		else if (!strcmp(type, @encode(quad_t)))
+		else if (!strcmp(type, @encode(int32_t)))
+		{
+			int32_t s32 = [readStream decodeInt32WithDescription:@"Signed int"];
+			int32_t savedS32;
+			[(NSValue *)item getValue:&savedS32];
+			XCTAssertEqual(s32, savedS32);
+		}
+		else if (!strcmp(type, @encode(u_int32_t)))
 		{
 			u_int32_t u32 = [readStream decodeUInt32WithDescription:@"Unsigned int"];
-			XCTAssertEqual(u32, [(NSNumber *)item unsignedIntValue]);
+			u_int32_t savedU32;
+			[(NSValue *)item getValue:&savedU32];
+			XCTAssertEqual(u32, savedU32);
 		}
 		else
 			NSAssert(NO, @"Number encoded incorrectly");
@@ -147,6 +167,8 @@
 		else
 			return NO;
 	}
+	else
+		NSAssert(NO, @"Invalid item type?");
 	return YES;
 }
 
@@ -194,6 +216,7 @@
 
 	#if 1
 		XCTAssertThrows([readStream decodeUInt8WithDescription:@"..."]);
+		XCTAssertThrows([readStream decodeInt32WithDescription:@"..."]);
 		XCTAssertThrows([readStream decodeUInt16WithDescription:@"..."]);
 		XCTAssertThrows([readStream decodeUInt32WithDescription:@"..."]);
 		XCTAssertThrows([readStream decodeDataWithLength:10 description:@"..."]);
