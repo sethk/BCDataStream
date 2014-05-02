@@ -185,7 +185,7 @@
 		FD8BA83D18C5ECE0006B1271 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Seth Kingsley";
 				TargetAttributes = {
 					FD7BE7EF18D0709600053D77 = {
@@ -328,6 +328,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FDFFA48FC5D24AEA85486A88 /* Pods-BCDataStreamExample Tests.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
@@ -348,6 +349,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FDFFA48FC5D24AEA85486A88 /* Pods-BCDataStreamExample Tests.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
