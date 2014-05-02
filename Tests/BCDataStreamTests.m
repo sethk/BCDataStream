@@ -238,7 +238,8 @@
 	NSUInteger iterationsLeft = 10000;
 	while (iterationsLeft--)
 	{
-		@autoreleasepool {
+		@autoreleasepool
+		{
 			NSUInteger chunkCapacity = (NSUInteger)random() % 64;
 			BNOutputDataStream *writeStream = [BNOutputDataStream streamWithChunkCapacity:chunkCapacity];
 			[writeStream setEndianness:(random() % 1) ? LITTLE_ENDIAN : BIG_ENDIAN];
