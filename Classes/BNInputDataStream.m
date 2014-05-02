@@ -79,6 +79,16 @@ NSString * const BNInputDataStreamException = @"Data Stream Exception";
 		return OSSwapBigToHostInt16(word);
 }
 
+- (int32_t)decodeInt32WithDescription:(NSString *)description
+{
+	int32_t i32;
+	[self decodeBytes:(u_int8_t *)&i32 length:sizeof(i32) description:description];
+	if (_endianness == LITTLE_ENDIAN)
+		return OSSwapLittleToHostInt32(i32);
+	else
+		return OSSwapBigToHostInt32(i32);
+}
+
 - (u_int32_t)decodeUInt32WithDescription:(NSString *)description
 {
 	u_int32_t u32;

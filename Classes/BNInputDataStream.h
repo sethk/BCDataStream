@@ -20,6 +20,7 @@ extern NSString * const BNInputDataStreamException;
 - (void)seekTo:(NSUInteger)offset description:(NSString *)description;
 - (u_int8_t)decodeUInt8WithDescription:(NSString *)description;
 - (u_int16_t)decodeUInt16WithDescription:(NSString *)description;
+- (int32_t)decodeInt32WithDescription:(NSString *)description;
 - (u_int32_t)decodeUInt32WithDescription:(NSString *)description;
 - (void)decodeBytes:(u_int8_t *)bytes length:(NSUInteger)length description:(NSString *)description;
 - (NSData *)decodeDataWithLength:(NSUInteger)length description:(NSString *)description;
