@@ -13,7 +13,7 @@ main(int argc, const char * argv[])
 {
 	@autoreleasepool
 	{
-		BNInputDataStream *inputStream = [BNInputDataStream streamWithData:<#(NSData *)#>]
+		BNInputDataStream *inputStream = [BNInputDataStream streamWithData:[NSData data]];
 	}
     return 0;
 }
